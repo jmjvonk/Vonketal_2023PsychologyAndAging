@@ -1,0 +1,402 @@
+Mplus VERSION 8
+MUTHEN & MUTHEN
+11/03/2022   6:32 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE: Msc thesis 31 Oct 2022;
+  DATA: FILE = "C:\Users\Jet\Documents\Research_data\Analyses 2020-01 Msc th
+  esis\2020-09 Analyses\mpluswide2022-10-31_final_mscthesisdata.dat";
+  VARIABLE: NAMES = id
+  cohort
+  sex
+  edu
+  black
+  DEAD
+  apoe4
+  Mfreq
+  total
+  MAoA
+  MLexDec
+  MSemN
+  swit
+  clus
+  LANG
+  s395
+  BNEWB09
+  SURV16
+  langadm
+  Ztotal
+  ZAoA
+  Zlex
+  Zclus
+  Zswit
+  SCD
+  lan1
+  lan2
+  lan3
+  lan4
+  lan5
+  mem1
+  mem2
+  mem3
+  mem4
+  mem5
+  speed1
+  speed2
+  speed3
+  speed4
+  speed5
+  vis1
+  vis2
+  vis3
+  vis4
+  vis5
+  tBREC
+  tSIM
+  tODD
+  tNAM
+  tCFL
+  tCAT
+  totani1
+  totani2
+  totani3
+  totani4
+  totani5
+  tREP
+  tCOM
+  tROS
+  tBMAT
+  tCT1
+  tCT2
+  ageb
+  Tmax
+  nrvisits
+  T1
+  T2
+  T3
+  T4
+  T5
+  T6
+  DDV2
+  DDV3
+  DDV4
+  DDV5
+  DDV6
+  ZFreqf
+  Zsemf
+  ZresFreq
+  ZresAoA
+  ZresSem
+  ZresLex
+  ZresSwit
+  ZresClus;
+
+
+  usevariables are id T1-T5 mem1-mem5
+  cohort ageb edu zaoa eduint;
+  !DDV2-DDV5;
+
+  IDVARIABLE = id;
+
+  MISSING ARE ALL (-999) ;
+
+  TSCORES= T1-T5;
+  !CATEGORICAL = DDV2-DDV5;
+
+  DEFINE: CENTER ageb cohort (GRANDMEAN);
+  eduint = edu*zaoa;
+
+  ANALYSIS:TYPE=RANDOM;
+  ESTIMATOR = MLF;
+
+  MODEL: i s | mem1-mem5 AT T1-T5;
+
+  !COG by tBREC* tSIM tODD tNAM tCFL
+  !tREP tCOM tROS tBMAT ;
+  ![COG@0];
+  !COG@1;
+
+  i s ON ageb cohort edu;
+
+  [s] (S);
+  [i] (I);
+  s*;
+  i*;
+  i ON zaoa eduint;
+  s ON zaoa eduint;
+
+  !joint model
+  !F BY DDV2-DDV5@1;
+
+  !F@0;
+
+  !F ON I ;
+  !F ON S ;
+
+  !F ON cohort ageb sex edu black;
+
+  output: CINTERVAL;
+
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Msc thesis 31 Oct 2022;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         583
+
+Number of dependent variables                                    5
+Number of independent variables                                  5
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   MEM1        MEM2        MEM3        MEM4        MEM5
+
+Observed independent variables
+   COHORT      AGEB        EDU         ZAOA        EDUINT
+
+Continuous latent variables
+   I           S
+
+Variables with special functions
+
+  ID variable           ID
+
+  Time scores
+   T1          T2          T3          T4          T5
+
+  Centering (GRANDMEAN)
+   AGEB        COHORT
+
+
+Estimator                                                      MLF
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  C:\Users\Jet\Documents\Research_data\Analyses 2020-01 Msc thesis\2020-09 Analy
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             5
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              MEM1          MEM2          MEM3          MEM4          MEM5
+              ________      ________      ________      ________      ________
+ MEM1           1.000
+ MEM2           0.780         0.780
+ MEM3           0.575         0.575         0.575
+ MEM4           0.345         0.345         0.345         0.345
+ MEM5           0.166         0.166         0.166         0.166         0.166
+ COHORT         1.000         0.780         0.575         0.345         0.166
+ AGEB           1.000         0.780         0.575         0.345         0.166
+ EDU            1.000         0.780         0.575         0.345         0.166
+ ZAOA           1.000         0.780         0.575         0.345         0.166
+ EDUINT         1.000         0.780         0.575         0.345         0.166
+
+
+           Covariance Coverage
+              COHORT        AGEB          EDU           ZAOA          EDUINT
+              ________      ________      ________      ________      ________
+ COHORT         1.000
+ AGEB           1.000         1.000
+ EDU            1.000         1.000         1.000
+ ZAOA           1.000         1.000         1.000         1.000
+ EDUINT         1.000         1.000         1.000         1.000         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MEM1                  0.457      -0.517      -1.964    0.17%      -0.133      0.337      0.532
+             583.000       0.523       0.014       1.897    0.17%       0.714      1.064
+     MEM2                  0.431      -0.755      -2.513    0.22%      -0.218      0.330      0.540
+             455.000       0.650       0.630       2.038    0.66%       0.709      1.114
+     MEM3                  0.473      -0.592      -2.746    0.30%      -0.243      0.326      0.568
+             335.000       0.666       0.316       2.038    0.30%       0.743      1.205
+     MEM4                  0.411      -0.785      -2.280    0.50%      -0.305      0.371      0.562
+             201.000       0.747       0.229       1.982    0.50%       0.771      1.092
+     MEM5                  0.334      -0.753      -2.102    1.03%      -0.299      0.247      0.540
+              97.000       0.759       0.317       2.038    1.03%       0.652      0.979
+     COHORT                0.000      -2.427      -2.645    9.78%       0.355      0.355      0.355
+             583.000       0.816       4.229       0.355   84.05%       0.355      0.355
+     AGEB                  0.000       0.641     -12.360    0.17%      -5.990     -3.248     -1.369
+             583.000      45.735      -0.181      23.347    0.17%       0.894      5.807
+     EDU                  13.834      -0.250       1.000    0.17%      12.000     12.000     14.000
+             583.000      11.542      -0.176      20.000    5.15%      15.000     17.000
+     ZAOA                  0.002       0.954      -2.006    0.17%      -0.896     -0.432     -0.141
+             583.000       1.052       1.468       5.232    0.17%       0.106      0.783
+     EDUINT                1.242       1.513     -31.891    0.17%     -10.300     -5.184     -1.712
+             583.000     236.276       4.963     104.634    0.17%       1.430     11.798
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       20
+
+Loglikelihood
+
+          H0 Value                       -1360.750
+
+Information Criteria
+
+          Akaike (AIC)                    2761.501
+          Bayesian (BIC)                  2848.864
+          Sample-Size Adjusted BIC        2785.372
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ I          ON
+    AGEB              -0.028      0.004     -6.388      0.000
+    COHORT            -0.047      0.033     -1.436      0.151
+    EDU                0.038      0.009      4.461      0.000
+    ZAOA               0.275      0.119      2.312      0.021
+    EDUINT            -0.010      0.008     -1.217      0.224
+
+ S          ON
+    AGEB              -0.005      0.001     -5.198      0.000
+    COHORT             0.002      0.005      0.425      0.671
+    EDU                0.001      0.002      0.563      0.573
+    ZAOA              -0.011      0.028     -0.403      0.687
+    EDUINT             0.002      0.002      1.133      0.257
+
+ S        WITH
+    I                  0.002      0.004      0.551      0.582
+
+ Intercepts
+    MEM1               0.000      0.000    999.000    999.000
+    MEM2               0.000      0.000    999.000    999.000
+    MEM3               0.000      0.000    999.000    999.000
+    MEM4               0.000      0.000    999.000    999.000
+    MEM5               0.000      0.000    999.000    999.000
+    I                 -0.052      0.121     -0.430      0.667
+    S                 -0.060      0.026     -2.300      0.021
+
+ Residual Variances
+    MEM1               0.115      0.016      7.270      0.000
+    MEM2               0.147      0.015      9.924      0.000
+    MEM3               0.135      0.013     10.650      0.000
+    MEM4               0.145      0.020      7.182      0.000
+    MEM5               0.161      0.041      3.966      0.000
+    I                  0.313      0.028     11.331      0.000
+    S                  0.003      0.001      4.448      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.828E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ I        ON
+    AGEB            -0.039      -0.036      -0.035      -0.028      -0.020      -0.019      -0.016
+    COHORT          -0.132      -0.112      -0.102      -0.047       0.007       0.017       0.038
+    EDU              0.016       0.022       0.024       0.038       0.053       0.055       0.061
+    ZAOA            -0.031       0.042       0.079       0.275       0.470       0.508       0.581
+    EDUINT          -0.030      -0.025      -0.023      -0.010       0.003       0.006       0.011
+
+ S        ON
+    AGEB            -0.007      -0.007      -0.006      -0.005      -0.003      -0.003      -0.002
+    COHORT          -0.011      -0.008      -0.006       0.002       0.011       0.013       0.016
+    EDU             -0.004      -0.003      -0.002       0.001       0.004       0.005       0.006
+    ZAOA            -0.082      -0.065      -0.057      -0.011       0.034       0.043       0.060
+    EDUINT          -0.003      -0.001      -0.001       0.002       0.005       0.005       0.007
+
+ S        WITH
+    I               -0.008      -0.006      -0.004       0.002       0.009       0.010       0.012
+
+ Intercepts
+    MEM1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM2             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM3             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM4             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM5             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    I               -0.363      -0.289      -0.251      -0.052       0.147       0.185       0.259
+    S               -0.127      -0.111      -0.103      -0.060      -0.017      -0.009       0.007
+
+ Residual Variances
+    MEM1             0.074       0.084       0.089       0.115       0.141       0.146       0.156
+    MEM2             0.109       0.118       0.123       0.147       0.171       0.176       0.185
+    MEM3             0.102       0.110       0.114       0.135       0.156       0.160       0.167
+    MEM4             0.093       0.105       0.111       0.145       0.178       0.184       0.196
+    MEM5             0.056       0.081       0.094       0.161       0.227       0.240       0.265
+    I                0.242       0.259       0.268       0.313       0.359       0.367       0.384
+    S                0.001       0.002       0.002       0.003       0.004       0.005       0.005
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\jet\documents\research_data\analyses 2020-01 msc thesis\2020-09 analyses\mplus output\2.conditional_modedu_
+
+     Beginning Time:  18:32:51
+        Ending Time:  18:32:53
+       Elapsed Time:  00:00:02
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2017 Muthen & Muthen

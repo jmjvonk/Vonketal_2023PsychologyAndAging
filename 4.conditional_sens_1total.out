@@ -1,0 +1,519 @@
+Mplus VERSION 8
+MUTHEN & MUTHEN
+11/04/2022  12:32 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE: Msc thesis 31 Oct 2022;
+  DATA: FILE = "C:\Users\Jet\Documents\Research_data\Analyses 2020-01 Msc th
+  esis\2020-09 Analyses\mpluswide2022-10-31_final_mscthesisdata.dat";
+  VARIABLE: NAMES = id
+  cohort
+  sex
+  edu
+  black
+  DEAD
+  apoe4
+  Mfreq
+  total
+  MAoA
+  MLexDec
+  MSemN
+  swit
+  clus
+  LANG
+  s395
+  BNEWB09
+  SURV16
+  langadm
+  Ztotal
+  ZAoA
+  Zlex
+  Zclus
+  Zswit
+  SCD
+  lan1
+  lan2
+  lan3
+  lan4
+  lan5
+  mem1
+  mem2
+  mem3
+  mem4
+  mem5
+  speed1
+  speed2
+  speed3
+  speed4
+  speed5
+  vis1
+  vis2
+  vis3
+  vis4
+  vis5
+  tBREC
+  tSIM
+  tODD
+  tNAM
+  tCFL
+  tCAT
+  totani1
+  totani2
+  totani3
+  totani4
+  totani5
+  tREP
+  tCOM
+  tROS
+  tBMAT
+  tCT1
+  tCT2
+  ageb
+  Tmax
+  nrvisits
+  T1
+  T2
+  T3
+  T4
+  T5
+  T6
+  DDV2
+  DDV3
+  DDV4
+  DDV5
+  DDV6
+  ZFreqf
+  Zsemf
+  ZresFreq
+  ZresAoA
+  ZresSem
+  ZresLex
+  ZresSwit
+  ZresClus;
+
+
+  usevariables are id T1-T5 mem1-mem5
+  cohort ageb ztotal
+  DDV2-DDV5;
+
+  IDVARIABLE = id;
+
+  MISSING ARE ALL (-999) ;
+
+  TSCORES= T1-T5;
+  CATEGORICAL = DDV2-DDV5;
+
+  DEFINE: CENTER ageb cohort (GRANDMEAN);
+
+  ANALYSIS:TYPE=RANDOM;
+  ESTIMATOR = MLF;
+
+  MODEL: i s | mem1-mem5 AT T1-T5;
+
+  !COG by tBREC* tSIM tODD tNAM tCFL
+  !tREP tCOM tROS tBMAT ;
+  ![COG@0];
+  !COG@1;
+
+  i s ON ageb cohort ;
+
+  [s] (S);
+  [i] (I);
+  s*;
+  i*;
+  i ON ztotal ;
+  s ON ztotal ;
+
+  !retest effect
+  !r BY  mem2@1 mem3@1.4 mem4@1.7 mem5@2;
+  ![r*];
+  !r@0;
+  !r with i@0 s@0;
+
+  !joint model
+  F BY DDV2-DDV5@1;
+
+  F@0;
+
+  F ON I ;
+  F ON S ;
+
+  F ON cohort ageb;
+
+  output: CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Msc thesis 31 Oct 2022;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         583
+
+Number of dependent variables                                    9
+Number of independent variables                                  3
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Continuous
+   MEM1        MEM2        MEM3        MEM4        MEM5
+
+  Binary and ordered categorical (ordinal)
+   DDV2        DDV3        DDV4        DDV5
+
+Observed independent variables
+   COHORT      AGEB        ZTOTAL
+
+Continuous latent variables
+   F           I           S
+
+Variables with special functions
+
+  ID variable           ID
+
+  Time scores
+   T1          T2          T3          T4          T5
+
+  Centering (GRANDMEAN)
+   AGEB        COHORT
+
+
+Estimator                                                      MLF
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  C:\Users\Jet\Documents\Research_data\Analyses 2020-01 Msc thesis\2020-09 Analy
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             9
+     Number of y missing data patterns           5
+     Number of u missing data patterns           5
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              DDV2          DDV3          DDV4          DDV5          MEM1
+              ________      ________      ________      ________      ________
+ DDV2           0.858
+ DDV3           0.626         0.626
+ DDV4           0.362         0.362         0.362
+ DDV5           0.172         0.172         0.172         0.172
+ MEM1           0.858         0.626         0.362         0.172         1.000
+ MEM2           0.780         0.626         0.362         0.172         0.780
+ MEM3           0.575         0.575         0.362         0.172         0.575
+ MEM4           0.345         0.345         0.345         0.172         0.345
+ MEM5           0.166         0.166         0.166         0.166         0.166
+ COHORT         0.858         0.626         0.362         0.172         1.000
+ AGEB           0.858         0.626         0.362         0.172         1.000
+ ZTOTAL         0.858         0.626         0.362         0.172         1.000
+
+
+           Covariance Coverage
+              MEM2          MEM3          MEM4          MEM5          COHORT
+              ________      ________      ________      ________      ________
+ MEM2           0.780
+ MEM3           0.575         0.575
+ MEM4           0.345         0.345         0.345
+ MEM5           0.166         0.166         0.166         0.166
+ COHORT         0.780         0.575         0.345         0.166         1.000
+ AGEB           0.780         0.575         0.345         0.166         1.000
+ ZTOTAL         0.780         0.575         0.345         0.166         1.000
+
+
+           Covariance Coverage
+              AGEB          ZTOTAL
+              ________      ________
+ AGEB           1.000
+ ZTOTAL         1.000         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              DDV2          DDV3          DDV4          DDV5
+              ________      ________      ________      ________
+ DDV2           0.858
+ DDV3           0.626         0.626
+ DDV4           0.362         0.362         0.362
+ DDV5           0.172         0.172         0.172         0.172
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              MEM1          MEM2          MEM3          MEM4          MEM5
+              ________      ________      ________      ________      ________
+ MEM1           1.000
+ MEM2           0.780         0.780
+ MEM3           0.575         0.575         0.575
+ MEM4           0.345         0.345         0.345         0.345
+ MEM5           0.166         0.166         0.166         0.166         0.166
+ COHORT         1.000         0.780         0.575         0.345         0.166
+ AGEB           1.000         0.780         0.575         0.345         0.166
+ ZTOTAL         1.000         0.780         0.575         0.345         0.166
+
+
+           Covariance Coverage
+              COHORT        AGEB          ZTOTAL
+              ________      ________      ________
+ COHORT         1.000
+ AGEB           1.000         1.000
+ ZTOTAL         1.000         1.000         1.000
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    DDV2
+      Category 1    0.910          455.000
+      Category 2    0.090           45.000
+    DDV3
+      Category 1    0.918          335.000
+      Category 2    0.082           30.000
+    DDV4
+      Category 1    0.953          201.000
+      Category 2    0.047           10.000
+    DDV5
+      Category 1    0.970           97.000
+      Category 2    0.030            3.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MEM1                  0.457      -0.517      -1.964    0.17%      -0.133      0.337      0.532
+             583.000       0.523       0.014       1.897    0.17%       0.714      1.064
+     MEM2                  0.431      -0.755      -2.513    0.22%      -0.218      0.330      0.540
+             455.000       0.650       0.630       2.038    0.66%       0.709      1.114
+     MEM3                  0.473      -0.592      -2.746    0.30%      -0.243      0.326      0.568
+             335.000       0.666       0.316       2.038    0.30%       0.743      1.205
+     MEM4                  0.411      -0.785      -2.280    0.50%      -0.305      0.371      0.562
+             201.000       0.747       0.229       1.982    0.50%       0.771      1.092
+     MEM5                  0.334      -0.753      -2.102    1.03%      -0.299      0.247      0.540
+              97.000       0.759       0.317       2.038    1.03%       0.652      0.979
+     COHORT                0.000      -2.427      -2.645    9.78%       0.355      0.355      0.355
+             583.000       0.816       4.229       0.355   84.05%       0.355      0.355
+     AGEB                  0.000       0.641     -12.360    0.17%      -5.990     -3.248     -1.369
+             583.000      45.735      -0.181      23.347    0.17%       0.894      5.807
+     ZTOTAL               -0.077       0.229      -2.898    0.17%      -0.979     -0.403     -0.211
+             583.000       1.043      -0.139       3.628    0.17%       0.173      0.748
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       23
+
+Loglikelihood
+
+          H0 Value                       -1606.933
+
+Information Criteria
+
+          Akaike (AIC)                    3259.866
+          Bayesian (BIC)                  3360.334
+          Sample-Size Adjusted BIC        3287.317
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ F        BY
+    DDV2               1.000      0.000    999.000    999.000
+    DDV3               1.000      0.000    999.000    999.000
+    DDV4               1.000      0.000    999.000    999.000
+    DDV5               1.000      0.000    999.000    999.000
+
+ F          ON
+    I                 -0.459      0.257     -1.788      0.074
+    S                 -8.579      6.259     -1.371      0.170
+
+ I          ON
+    AGEB              -0.020      0.004     -4.669      0.000
+    COHORT            -0.051      0.033     -1.549      0.121
+    ZTOTAL             0.309      0.027     11.427      0.000
+
+ S          ON
+    AGEB              -0.005      0.001     -5.349      0.000
+    COHORT             0.003      0.006      0.553      0.580
+    ZTOTAL             0.016      0.006      2.789      0.005
+
+ F          ON
+    COHORT            -0.150      0.110     -1.360      0.174
+    AGEB               0.048      0.036      1.330      0.183
+
+ Intercepts
+    MEM1               0.000      0.000    999.000    999.000
+    MEM2               0.000      0.000    999.000    999.000
+    MEM3               0.000      0.000    999.000    999.000
+    MEM4               0.000      0.000    999.000    999.000
+    MEM5               0.000      0.000    999.000    999.000
+    I                  0.493      0.028     17.317      0.000
+    S                 -0.051      0.007     -7.517      0.000
+
+ Thresholds
+    DDV2$1             2.962      0.623      4.756      0.000
+    DDV3$1             2.838      0.603      4.706      0.000
+    DDV4$1             3.364      0.622      5.410      0.000
+    DDV5$1             3.911      0.776      5.041      0.000
+
+ Residual Variances
+    MEM1               0.110      0.014      7.874      0.000
+    MEM2               0.146      0.014     10.376      0.000
+    MEM3               0.128      0.012     10.758      0.000
+    MEM4               0.151      0.020      7.507      0.000
+    MEM5               0.161      0.042      3.853      0.000
+    F                  0.000      0.000    999.000    999.000
+    I                  0.279      0.022     12.513      0.000
+    S                  0.004      0.001      4.903      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.535E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ F        BY
+    DDV2             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DDV3             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DDV4             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DDV5             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ F        ON
+    I               -1.121      -0.962      -0.882      -0.459      -0.037       0.044       0.202
+    S              -24.701     -20.847     -18.875      -8.579       1.717       3.688       7.543
+
+ I        ON
+    AGEB            -0.031      -0.028      -0.027      -0.020      -0.013      -0.012      -0.009
+    COHORT          -0.137      -0.116      -0.106      -0.051       0.003       0.014       0.034
+    ZTOTAL           0.240       0.256       0.265       0.309       0.354       0.362       0.379
+
+ S        ON
+    AGEB            -0.008      -0.007      -0.007      -0.005      -0.004      -0.003      -0.003
+    COHORT          -0.011      -0.008      -0.006       0.003       0.012       0.014       0.018
+    ZTOTAL           0.001       0.005       0.007       0.016       0.026       0.028       0.032
+
+ F        ON
+    COHORT          -0.433      -0.365      -0.331      -0.150       0.031       0.066       0.134
+    AGEB            -0.045      -0.023      -0.011       0.048       0.108       0.119       0.141
+
+ Intercepts
+    MEM1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM2             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM3             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM4             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM5             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    I                0.419       0.437       0.446       0.493       0.540       0.549       0.566
+    S               -0.069      -0.065      -0.062      -0.051      -0.040      -0.038      -0.034
+
+ Thresholds
+    DDV2$1           1.358       1.741       1.938       2.962       3.986       4.182       4.566
+    DDV3$1           1.285       1.656       1.846       2.838       3.831       4.021       4.392
+    DDV4$1           1.762       2.145       2.341       3.364       4.387       4.583       4.966
+    DDV5$1           1.912       2.390       2.634       3.911       5.187       5.431       5.909
+
+ Residual Variances
+    MEM1             0.074       0.083       0.087       0.110       0.133       0.138       0.146
+    MEM2             0.110       0.119       0.123       0.146       0.169       0.174       0.182
+    MEM3             0.097       0.105       0.108       0.128       0.147       0.151       0.158
+    MEM4             0.099       0.111       0.118       0.151       0.184       0.190       0.203
+    MEM5             0.054       0.079       0.093       0.161       0.230       0.244       0.269
+    F                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    I                0.222       0.235       0.242       0.279       0.316       0.323       0.336
+    S                0.002       0.002       0.003       0.004       0.005       0.006       0.006
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\jet\documents\research_data\analyses 2020-01 msc thesis\2020-09 analyses\mplus output\4.conditional_sens_1t
+
+     Beginning Time:  12:32:38
+        Ending Time:  12:32:42
+       Elapsed Time:  00:00:04
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2017 Muthen & Muthen

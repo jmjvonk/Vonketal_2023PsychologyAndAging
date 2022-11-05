@@ -1,0 +1,553 @@
+Mplus VERSION 8
+MUTHEN & MUTHEN
+11/03/2022   4:14 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE: Msc thesis 31 Oct 2022;
+  DATA: FILE = "C:\Users\Jet\Documents\Research_data\Analyses 2020-01 Msc th
+  esis\2020-09 Analyses\mpluswide2022-10-31_final_mscthesisdata.dat";
+  VARIABLE: NAMES = id
+  cohort
+  sex
+  edu
+  black
+  DEAD
+  apoe4
+  Mfreq
+  total
+  MAoA
+  MLexDec
+  MSemN
+  swit
+  clus
+  LANG
+  s395
+  BNEWB09
+  SURV16
+  langadm
+  Ztotal
+  ZAoA
+  Zlex
+  Zclus
+  Zswit
+  SCD
+  lan1
+  lan2
+  lan3
+  lan4
+  lan5
+  mem1
+  mem2
+  mem3
+  mem4
+  mem5
+  speed1
+  speed2
+  speed3
+  speed4
+  speed5
+  vis1
+  vis2
+  vis3
+  vis4
+  vis5
+  tBREC
+  tSIM
+  tODD
+  tNAM
+  tCFL
+  tCAT
+  totani1
+  totani2
+  totani3
+  totani4
+  totani5
+  tREP
+  tCOM
+  tROS
+  tBMAT
+  tCT1
+  tCT2
+  ageb
+  Tmax
+  nrvisits
+  T1
+  T2
+  T3
+  T4
+  T5
+  T6
+  DDV2
+  DDV3
+  DDV4
+  DDV5
+  DDV6
+  ZFreqf
+  Zsemf
+  ZresFreq
+  ZresAoA
+  ZresSem
+  ZresLex
+  ZresSwit
+  ZresClus;
+
+
+  usevariables are id T1-T5 mem1-mem5
+  cohort ageb ZAoA;
+  !DDV2-DDV5;
+
+  IDVARIABLE = id;
+  GROUPING = sex (0=men 1=women);
+
+  MISSING ARE ALL (-999) ;
+
+  TSCORES= T1-T5;
+  !CATEGORICAL = DDV2-DDV5;
+
+  DEFINE: CENTER ageb cohort (GRANDMEAN);
+
+  ANALYSIS:TYPE=RANDOM;
+  ESTIMATOR = MLF;
+
+  MODEL: i s | mem1-mem5 AT T1-T5;
+
+  !COG by tBREC* tSIM tODD tNAM tCFL
+  !tREP tCOM tROS tBMAT ;
+  ![COG@0];
+  !COG@1;
+
+  i s ON ageb cohort ;
+
+  [s] ;
+  [i] ;
+  s*;
+  i*;
+  i ON ZAoA ;
+  s ON ZAoA ;
+
+  MODEL men:
+  [s] ;
+  [i] ;
+  s*;
+  i*;
+  i ON ZAoA (Iw);
+  s ON ZAoA (Sw);
+
+  i s ON ageb cohort ;
+
+  MODEL women:
+  [s] (S);
+  [i] (I);
+  s*;
+  i*;
+  i ON ZAoA (Ib);
+  s ON ZAoA (Sb);
+
+  i s ON ageb cohort ;
+
+  !retest effect
+  !r BY  mem2@1 mem3@1.4 mem4@1.7 mem5@2;
+  ![r*];
+  !r@0;
+  !r with i@0 s@0;
+
+  !joint model
+  !F BY DDV2-DDV5@1;
+
+  !F@0;
+
+  !F ON I ;
+  !F ON S ;
+
+  !F ON cohort ageb sex edu black;
+
+  MODEL CONSTRAINT:
+  new(iwb swb);
+
+  iwb=Iw-Ib;
+  swb=Sw-Sb;
+
+  output: CINTERVAL;
+
+
+
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+Msc thesis 31 Oct 2022;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 2
+Number of observations
+   Group MEN                                                   213
+   Group WOMEN                                                 370
+   Total sample size                                           583
+
+Number of dependent variables                                    5
+Number of independent variables                                  3
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   MEM1        MEM2        MEM3        MEM4        MEM5
+
+Observed independent variables
+   COHORT      AGEB        ZAOA
+
+Continuous latent variables
+   I           S
+
+Variables with special functions
+
+  Grouping variable     SEX
+  ID variable           ID
+
+  Time scores
+   T1          T2          T3          T4          T5
+
+  Centering (GRANDMEAN)
+   AGEB        COHORT
+
+
+Estimator                                                      MLF
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  C:\Users\Jet\Documents\Research_data\Analyses 2020-01 Msc thesis\2020-09 Analy
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+   Group MEN
+     Number of missing data patterns             5
+
+   Group WOMEN
+     Number of missing data patterns             5
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR MEN
+
+
+           Covariance Coverage
+              MEM1          MEM2          MEM3          MEM4          MEM5
+              ________      ________      ________      ________      ________
+ MEM1           1.000
+ MEM2           0.770         0.770
+ MEM3           0.563         0.563         0.563
+ MEM4           0.333         0.333         0.333         0.333
+ MEM5           0.131         0.131         0.131         0.131         0.131
+ COHORT         1.000         0.770         0.563         0.333         0.131
+ AGEB           1.000         0.770         0.563         0.333         0.131
+ ZAOA           1.000         0.770         0.563         0.333         0.131
+
+
+           Covariance Coverage
+              COHORT        AGEB          ZAOA
+              ________      ________      ________
+ COHORT         1.000
+ AGEB           1.000         1.000
+ ZAOA           1.000         1.000         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR WOMEN
+
+
+           Covariance Coverage
+              MEM1          MEM2          MEM3          MEM4          MEM5
+              ________      ________      ________      ________      ________
+ MEM1           1.000
+ MEM2           0.786         0.786
+ MEM3           0.581         0.581         0.581
+ MEM4           0.351         0.351         0.351         0.351
+ MEM5           0.186         0.186         0.186         0.186         0.186
+ COHORT         1.000         0.786         0.581         0.351         0.186
+ AGEB           1.000         0.786         0.581         0.351         0.186
+ ZAOA           1.000         0.786         0.581         0.351         0.186
+
+
+           Covariance Coverage
+              COHORT        AGEB          ZAOA
+              ________      ________      ________
+ COHORT         1.000
+ AGEB           1.000         1.000
+ ZAOA           1.000         1.000         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS FOR MEN
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MEM1                  0.325      -0.308      -1.745    0.47%      -0.321      0.196      0.363
+             213.000       0.505      -0.232       1.841    0.47%       0.506      0.917
+     MEM2                  0.261      -0.259      -2.111    0.61%      -0.431      0.036      0.308
+             164.000       0.689      -0.326       2.038    0.61%       0.478      1.024
+     MEM3                  0.383      -0.317      -1.869    0.83%      -0.367      0.152      0.452
+             120.000       0.709      -0.334       1.954    0.83%       0.650      1.205
+     MEM4                  0.229      -0.752      -2.280    1.41%      -0.445      0.115      0.331
+              71.000       0.673       0.421       1.638    1.41%       0.556      0.883
+     MEM5                  0.133      -0.392      -1.998    3.57%      -0.738     -0.111      0.246
+              28.000       0.702      -0.238       1.604    3.57%       0.450      0.681
+     COHORT                0.000      -2.615      -2.681    8.92%       0.319      0.319      0.319
+             213.000       0.753       5.170       0.319   85.92%       0.319      0.319
+     AGEB                  0.000       0.743     -11.844    0.47%      -5.918     -3.014     -1.376
+             213.000      45.840       0.201      23.863    0.47%       1.082      5.243
+     ZAOA                  0.277       0.976      -1.990    0.47%      -0.639     -0.114      0.105
+             213.000       1.209       1.810       5.232    0.47%       0.366      1.104
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS FOR WOMEN
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MEM1                  0.533      -0.661      -1.964    0.27%      -0.037      0.450      0.672
+             370.000       0.518       0.304       1.897    0.27%       0.799      1.142
+     MEM2                  0.527      -1.087      -2.513    0.34%       0.041      0.478      0.652
+             291.000       0.602       1.736       2.038    0.69%       0.816      1.120
+     MEM3                  0.523      -0.759      -2.746    0.47%      -0.144      0.419      0.658
+             215.000       0.635       0.854       2.038    0.47%       0.799      1.205
+     MEM4                  0.510      -0.876      -2.187    0.77%      -0.218      0.506      0.712
+             130.000       0.760       0.269       1.982    0.77%       0.889      1.182
+     MEM5                  0.416      -0.935      -2.102    1.45%      -0.164      0.529      0.624
+              69.000       0.760       0.750       2.038    1.45%       0.748      0.979
+     COHORT                0.000      -2.330      -2.624   10.27%       0.376      0.376      0.376
+             370.000       0.851       3.767       0.376   82.97%       0.376      0.376
+     AGEB                  0.000       0.588     -10.874    0.27%      -5.986     -3.282     -1.246
+             370.000      45.432      -0.379      21.222    0.27%       0.696      6.066
+     ZAOA                 -0.156       0.851      -2.006    0.27%      -0.958     -0.538     -0.342
+             370.000       0.893       0.665       3.261    0.27%      -0.071      0.557
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       32
+
+Loglikelihood
+
+          H0 Value                       -1348.879
+
+Information Criteria
+
+          Akaike (AIC)                    2761.759
+          Bayesian (BIC)                  2901.541
+          Sample-Size Adjusted BIC        2799.952
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group MEN
+
+ I          ON
+    AGEB              -0.029      0.007     -4.255      0.000
+    COHORT             0.018      0.062      0.285      0.776
+    ZAOA               0.205      0.040      5.184      0.000
+
+ S          ON
+    AGEB              -0.005      0.002     -2.721      0.007
+    COHORT            -0.001      0.010     -0.121      0.904
+    ZAOA               0.023      0.009      2.500      0.012
+
+ S        WITH
+    I                  0.010      0.006      1.614      0.107
+
+ Intercepts
+    MEM1               0.000      0.000    999.000    999.000
+    MEM2               0.000      0.000    999.000    999.000
+    MEM3               0.000      0.000    999.000    999.000
+    MEM4               0.000      0.000    999.000    999.000
+    MEM5               0.000      0.000    999.000    999.000
+    I                  0.265      0.046      5.824      0.000
+    S                 -0.042      0.009     -4.858      0.000
+
+ Residual Variances
+    MEM1               0.138      0.032      4.296      0.000
+    MEM2               0.164      0.029      5.686      0.000
+    MEM3               0.162      0.030      5.406      0.000
+    MEM4               0.118      0.032      3.694      0.000
+    MEM5               0.107      0.065      1.642      0.101
+    I                  0.285      0.049      5.803      0.000
+    S                  0.002      0.001      1.788      0.074
+
+Group WOMEN
+
+ I          ON
+    AGEB              -0.030      0.006     -5.416      0.000
+    COHORT            -0.044      0.039     -1.143      0.253
+    ZAOA               0.208      0.034      6.035      0.000
+
+ S          ON
+    AGEB              -0.005      0.001     -4.575      0.000
+    COHORT             0.006      0.008      0.829      0.407
+    ZAOA               0.015      0.009      1.736      0.083
+
+ S        WITH
+    I                 -0.004      0.005     -0.789      0.430
+
+ Intercepts
+    MEM1               0.000      0.000    999.000    999.000
+    MEM2               0.000      0.000    999.000    999.000
+    MEM3               0.000      0.000    999.000    999.000
+    MEM4               0.000      0.000    999.000    999.000
+    MEM5               0.000      0.000    999.000    999.000
+    I                  0.581      0.039     14.873      0.000
+    S                 -0.045      0.008     -5.689      0.000
+
+ Residual Variances
+    MEM1               0.096      0.019      5.038      0.000
+    MEM2               0.138      0.018      7.644      0.000
+    MEM3               0.117      0.016      7.482      0.000
+    MEM4               0.153      0.028      5.400      0.000
+    MEM5               0.182      0.057      3.200      0.001
+    I                  0.320      0.032     10.073      0.000
+    S                  0.004      0.001      4.268      0.000
+
+New/Additional Parameters
+    IWB               -0.003      0.052     -0.048      0.962
+    SWB                0.008      0.012      0.629      0.530
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.566E-07
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Group MEN
+
+ I        ON
+    AGEB            -0.047      -0.042      -0.040      -0.029      -0.018      -0.016      -0.011
+    COHORT          -0.141      -0.103      -0.084       0.018       0.119       0.139       0.177
+    ZAOA             0.103       0.128       0.140       0.205       0.270       0.283       0.307
+
+ S        ON
+    AGEB            -0.009      -0.008      -0.007      -0.005      -0.002      -0.001       0.000
+    COHORT          -0.027      -0.021      -0.018      -0.001       0.015       0.018       0.024
+    ZAOA            -0.001       0.005       0.008       0.023       0.038       0.040       0.046
+
+ S        WITH
+    I               -0.006      -0.002       0.000       0.010       0.020       0.022       0.026
+
+ Intercepts
+    MEM1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM2             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM3             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM4             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM5             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    I                0.148       0.176       0.190       0.265       0.340       0.355       0.383
+    S               -0.064      -0.059      -0.056      -0.042      -0.028      -0.025      -0.020
+
+ Residual Variances
+    MEM1             0.055       0.075       0.085       0.138       0.190       0.200       0.220
+    MEM2             0.090       0.108       0.117       0.164       0.212       0.221       0.238
+    MEM3             0.085       0.103       0.113       0.162       0.211       0.221       0.239
+    MEM4             0.036       0.056       0.066       0.118       0.171       0.181       0.201
+    MEM5            -0.061      -0.021       0.000       0.107       0.215       0.235       0.276
+    I                0.158       0.188       0.204       0.285       0.365       0.381       0.411
+    S               -0.001       0.000       0.000       0.002       0.004       0.005       0.005
+
+Group WOMEN
+
+ I        ON
+    AGEB            -0.044      -0.041      -0.039      -0.030      -0.021      -0.019      -0.016
+    COHORT          -0.144      -0.120      -0.108      -0.044       0.019       0.032       0.056
+    ZAOA             0.119       0.140       0.151       0.208       0.264       0.275       0.296
+
+ S        ON
+    AGEB            -0.008      -0.008      -0.007      -0.005      -0.003      -0.003      -0.002
+    COHORT          -0.013      -0.009      -0.006       0.006       0.019       0.021       0.026
+    ZAOA            -0.007      -0.002       0.001       0.015       0.029       0.032       0.037
+
+ S        WITH
+    I               -0.018      -0.015      -0.013      -0.004       0.005       0.006       0.010
+
+ Intercepts
+    MEM1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM2             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM3             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM4             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MEM5             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    I                0.481       0.505       0.517       0.581       0.645       0.658       0.682
+    S               -0.065      -0.060      -0.058      -0.045      -0.032      -0.029      -0.025
+
+ Residual Variances
+    MEM1             0.047       0.059       0.065       0.096       0.127       0.133       0.145
+    MEM2             0.091       0.102       0.108       0.138       0.167       0.173       0.184
+    MEM3             0.077       0.086       0.091       0.117       0.143       0.148       0.158
+    MEM4             0.080       0.097       0.106       0.153       0.199       0.208       0.225
+    MEM5             0.035       0.070       0.088       0.182       0.275       0.293       0.328
+    I                0.238       0.258       0.268       0.320       0.372       0.382       0.402
+    S                0.002       0.002       0.003       0.004       0.006       0.006       0.007
+
+New/Additional Parameters
+    IWB             -0.138      -0.105      -0.089      -0.003       0.084       0.100       0.133
+    SWB             -0.024      -0.017      -0.013       0.008       0.028       0.032       0.040
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\jet\documents\research_data\analyses 2020-01 msc thesis\2020-09 analyses\mplus output\2.conditional_mgsex_2
+
+     Beginning Time:  16:14:06
+        Ending Time:  16:14:07
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2017 Muthen & Muthen
